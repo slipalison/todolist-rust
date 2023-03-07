@@ -23,12 +23,9 @@ impl ToDoCrateCommand {
 
     fn esta_atrasada(&self) -> bool {
         let agora = Utc::now();
-
-        //println!("esta_atrasada deadline {:?}  datanow: {:?}", self.deadline, agora);
-        
         match self.deadline {
-            Some(deadline) => deadline > agora,
-            None => false,
+            Some(deadline) => deadline < agora,
+            None => true,
         }
     }
 }

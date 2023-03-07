@@ -15,7 +15,9 @@ async fn echo(req_body: String) -> impl Responder {
 async fn create(req_body: web::Json<ToDoCrateCommand>) -> impl Responder {
    
     if let Err(mensagem) = req_body.validate() {
-        return HttpResponse::BadRequest().body(format!("{{ \"message\":{} }}", mensagem))
+        return HttpResponse::BadRequest()
+        .content_type("application/json")
+        .body(format!("{{ \"message\":{} }}", mensagem))
     }
 
     HttpResponse::Ok().json(req_body)
