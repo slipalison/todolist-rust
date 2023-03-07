@@ -3,9 +3,9 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ToDoCrateCommand {
-    name: String,
+    pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    deadline: Option<DateTime<Utc>>,
+    pub deadline: Option<DateTime<Utc>>,
 }
 
 impl ToDoCrateCommand {

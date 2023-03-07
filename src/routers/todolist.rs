@@ -7,10 +7,6 @@ async fn hello() -> impl Responder {
     HttpResponse::Ok().body("Hello world!")
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
 
 #[post("")]
 async fn create(req_body: web::Json<ToDoCrateCommand>) -> impl Responder {
@@ -36,6 +32,12 @@ async fn update(req_body: web::Json<ToDoUpdateCommand>) -> impl Responder {
 
     return HttpResponse::Ok().json(ToDoUpdateCommand::new(valores.name, valores.deadline, valores.status)); 
 }
+
+#[post("/echo")]
+async fn echo(req_body: String) -> impl Responder {
+    HttpResponse::Ok().body(req_body)
+}
+
 
 async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")

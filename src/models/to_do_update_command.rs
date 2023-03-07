@@ -1,6 +1,8 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
+use super::status_enum::Status;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ToDoUpdateCommand {
     pub name: String,
@@ -9,12 +11,7 @@ pub struct ToDoUpdateCommand {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
 }
-#[derive(Serialize, Deserialize, Debug)]
-pub enum Status {
-    ToDo,
-    InProgress,
-    Done,
-}
+
 
 impl ToDoUpdateCommand {
     pub fn new(
