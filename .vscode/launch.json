@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Rust Application",
+            "type": "cppvsdbg", //windows
+            "request": "launch",
+            "program": "${workspaceFolder}/target/debug/hello-rust",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            //"env": {},
+            //"externalConsole": false,
+            // "MIMode": "gdb",
+            "preLaunchTask": "cargo build",
+            //"preLaunchTask": "cargo run",
+            // "setupCommands": [
+            //     {
+            //         "description": "Enable pretty-printing for cppdbg",
+            //         "text": "-enable-pretty-printing",
+            //         "ignoreFailures": true
+            //     }
+            // ]
+        }
+    ]
+}

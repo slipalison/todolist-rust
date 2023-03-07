@@ -26,6 +26,14 @@ async fn create(req_body: web::Json<ToDoCrateCommand>) -> impl Responder {
 #[patch("")]
 async fn update(req_body: web::Json<ToDoUpdateCommand>) -> impl Responder {
     let valores = req_body.into_inner();
+
+    if let Err(mensagem) = valores.validate() {
+        return HttpResponse::BadRequest()
+            .content_type("application/json")
+            .body(format!("{{ \"message\":{} }}", mensagem));
+    }
+
+
     return HttpResponse::Ok().json(ToDoUpdateCommand::new(valores.name, valores.deadline, valores.status)); 
 }
 
