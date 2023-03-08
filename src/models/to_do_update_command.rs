@@ -14,17 +14,6 @@ pub struct ToDoUpdateCommand {
 
 
 impl ToDoUpdateCommand {
-    pub fn new(
-        name: String,
-        deadline: Option<DateTime<Utc>>,
-        status: Option<Status>,
-    ) -> ToDoUpdateCommand {
-        ToDoUpdateCommand {
-            name: name,
-            deadline: deadline,
-            status: status,
-        }
-    }
 
     pub fn validate(&self) -> Result<bool, String> {
         let len = self.name.trim().chars().count();
