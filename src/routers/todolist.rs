@@ -1,8 +1,8 @@
 use crate::models::to_do_crate_command::ToDoCrateCommand;
 use crate::models::to_do_update_command::ToDoUpdateCommand;
-use crate::services::to_do_list_service::{add_item, get_items, update_item};
+use crate::services::to_do_list_service::{add_item, delete_item, get_items, update_item};
 
-use actix_web::{get, patch, post, web, HttpResponse, Responder};
+use actix_web::{delete, get, patch, post, web, HttpResponse, Responder};
 
 #[get("")]
 async fn hello() -> impl Responder {
@@ -40,9 +40,11 @@ async fn update(
     return HttpResponse::Ok().json(entity.unwrap());
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
+#[delete("/{id}")]
+async fn delete(id: web::Path<uuid::Uuid>) -> impl Responder {
+    delete_item(&id);
+
+    return HttpResponse::Ok();
 }
 
 async fn manual_hello() -> impl Responder {
@@ -51,10 +53,9 @@ async fn manual_hello() -> impl Responder {
 
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/todo")
+        web::scope("/ToDo")
             .service(create)
             .service(hello)
-            .service(echo)
             .service(update)
             .route("/hey", web::get().to(manual_hello)),
     );

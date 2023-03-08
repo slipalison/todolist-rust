@@ -46,3 +46,12 @@ pub fn update_item(id: Uuid, commad: ToDoUpdateCommand) -> Result<ToDoEntity, &'
 
     Err("Item not found")
 }
+
+pub fn delete_item(id: &Uuid) -> Option<ToDoEntity> {
+    let mut items = ITEMS.lock().unwrap();
+    if let Some(index) = items.iter().position(|x| x.id == *id) {
+        Some(items.remove(index))
+    } else {
+        None
+    }
+}

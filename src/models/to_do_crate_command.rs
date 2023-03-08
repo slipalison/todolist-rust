@@ -1,11 +1,11 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ToDoCrateCommand {
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub deadline: Option<DateTime<Utc>>,
+    pub deadline: Option<DateTime<Local>>,
 }
 
 impl ToDoCrateCommand {
@@ -23,7 +23,7 @@ impl ToDoCrateCommand {
     }
 
     fn esta_atrasada(&self) -> bool {
-        let agora = Utc::now();
+        let agora = Local::now();
         match self.deadline {
             Some(deadline) => deadline < agora,
             None => false,

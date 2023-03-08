@@ -1,4 +1,4 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 
 use super::status_enum::Status;
@@ -7,7 +7,7 @@ use super::status_enum::Status;
 pub struct ToDoUpdateCommand {
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub deadline: Option<DateTime<Utc>>,
+    pub deadline: Option<DateTime<Local>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
 }
@@ -28,7 +28,7 @@ impl ToDoUpdateCommand {
         Ok(true)
     }
     fn esta_atrasada(&self) -> bool {
-        let agora = Utc::now();
+        let agora = Local::now();
         match self.deadline {
             Some(deadline) => deadline < agora,
             None => false,
