@@ -1,12 +1,13 @@
 use crate::models::to_do_crate_command::ToDoCrateCommand;
 use crate::models::to_do_update_command::ToDoUpdateCommand;
+use crate::services::to_do_list_service::{add_item, get_items, update_item};
+
 use actix_web::{get, patch, post, web, HttpResponse, Responder};
 
 #[get("")]
 async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+    HttpResponse::Ok().json(get_items().unwrap())
 }
-
 
 #[post("")]
 async fn create(req_body: web::Json<ToDoCrateCommand>) -> impl Responder {
@@ -16,11 +17,16 @@ async fn create(req_body: web::Json<ToDoCrateCommand>) -> impl Responder {
             .body(format!("{{ \"message\":{} }}", mensagem));
     }
 
-    HttpResponse::Ok().json(req_body)
+    let item = add_item(req_body.into_inner());
+
+    HttpResponse::Ok().json(item.unwrap())
 }
 
-#[patch("")]
-async fn update(req_body: web::Json<ToDoUpdateCommand>) -> impl Responder {
+#[patch("/{id}")]
+async fn update(
+    id: web::Path<uuid::Uuid>,
+    req_body: web::Json<ToDoUpdateCommand>,
+) -> impl Responder {
     let valores = req_body.into_inner();
 
     if let Err(mensagem) = valores.validate() {
@@ -29,15 +35,15 @@ async fn update(req_body: web::Json<ToDoUpdateCommand>) -> impl Responder {
             .body(format!("{{ \"message\":{} }}", mensagem));
     }
 
+    let entity = update_item(id.into_inner(), valores);
 
-    return HttpResponse::Ok().json(ToDoUpdateCommand::new(valores.name, valores.deadline, valores.status)); 
+    return HttpResponse::Ok().json(entity.unwrap());
 }
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
 }
-
 
 async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")

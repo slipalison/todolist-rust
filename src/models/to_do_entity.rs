@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use super::{status_enum::Status, to_do_update_command::ToDoUpdateCommand, to_do_crate_command::ToDoCrateCommand};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ToDoEntity {
     pub id: Uuid,
     pub name: String,
