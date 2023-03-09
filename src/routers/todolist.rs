@@ -57,6 +57,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
             .service(create)
             .service(hello)
             .service(update)
+            .service(delete)
             .route("/hey", web::get().to(manual_hello)),
     );
 }
